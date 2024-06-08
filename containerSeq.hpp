@@ -4,34 +4,36 @@ template<typename T>
 class ContainerSeq
 {
     public:
-        ContainerSeq(): _data(nullptr), _size(0) {}
+        ContainerSeq(): _size(0), _capacity(5) {
+            T* data = new T[_capacity];
+            _data = data;
+        }
     
         ~ContainerSeq() {delete[] _data;}
     
         void push_back(const T& value) {
-            T* new_data = new T[_size + 1];
-            for (size_t i = 0; i < _size; i++)
-            {   
-                new_data[i] = _data[i];
+            if(_size >= _capacity)
+            {
+                addCapacity();
             }
-            new_data[_size] = value;
-            delete[] _data;
-            _data = new_data;
+            _data[_size] = value;
             _size++;
         }
 
         void push_front(const T& value)
         {
-            T* new_data = new T[_size + 1];
-            for(size_t i = 1; i < _size + 1; i++)
+            if(_size >= _capacity)
+            {
+                addCapacity();
+            }
+
+            for(size_t i = _size; i > 0; i--)
                 {
-                    new_data[i] = _data[i - 1];
+                    _data[i] = _data[i - 1];    
                 }
-                new_data[0] = value;
-                delete[] _data;
-                _data = new_data;
-                _size++;
-        }
+                _data[0] = value;
+                ++_size;
+                }
 
         void insert(size_t index, const T& value)
         {
@@ -39,18 +41,17 @@ class ContainerSeq
                 {
                     throw std::out_of_range("Index out of range");
                 }
-            T* new_data = new T[_size + 1];
-            for(size_t i = 0; i < index; i++)
+
+            if(_size >= _capacity)
             {
-                new_data[i] = _data[i];
+                addCapacity();
             }
-            new_data[index] = value;
-            for(size_t i = index; i < _size; i++)
+            // move positions starting from index to 1
+            for(size_t i = _size; i > index; i--)
             {
-                new_data[i + 1] = _data[i];
+                _data[i] = _data[i - 1];
             }
-            delete[] _data;
-            _data = new_data;
+            _data[index] = value;
             _size++;
         }
     
@@ -76,25 +77,27 @@ class ContainerSeq
                 throw std::out_of_range("Index out of range");
             }
 
-            T* new_data = new T[_size - 1];
-            for(size_t i = 0; i < index; i++)
-                {
-                    new_data[i] = _data[i];
-                }            
-            for(size_t i = index + 1; i < _size; i++)
-            {
-                new_data[i - 1] = _data[i];
-            }
-            delete[] _data;
-            _data = new_data;
-            _size--;
+        for (size_t i = index; i < _size - 1; ++i) {
+            _data[i] = _data[i + 1];
         }
-
-        
+        _size--;
+        }
 
     private:
         T* _data;
         size_t _size;
+        size_t _capacity;
+        void addCapacity()
+        {
+            _capacity *= 2;
+            T* newData = new T[_capacity];
+            for(auto i = 0; i < _size; i++)
+            {
+                newData[i] = _data[i];
+            }
+            delete[] _data;
+            _data = newData;
+        }
 };
 
 template<typename T>

@@ -122,7 +122,8 @@ class ContainerListOneWay{
     private:
     Node<T>* head;
     Node<T>* tail;
-    int size; 
+    int size;
+    int capacity;
 };
 
     template<typename T>
