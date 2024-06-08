@@ -1,5 +1,5 @@
 #include <iostream>
-#include <list>
+namespace ContList{
 
 template<typename T>
 struct Node{
@@ -63,9 +63,9 @@ class ContainerList
 
         const T& operator[](int index) const
         {
-            if(index >= size || index < 0)
+            if(index >= size || index < 0 || size == 0)
             {
-                throw std::out_of_range("Index is out of range");
+                throw std::out_of_range("Index is out of range or no nodes in container");
             }
             else{
                 Node<T>* current = head;
@@ -143,4 +143,5 @@ std::ostream& operator<<(std::ostream& os, ContainerList<T>& cont)
         os << cont[i] << " ";
     }
     return os;
+}
 }
