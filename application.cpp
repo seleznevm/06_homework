@@ -15,8 +15,21 @@ int main()
     workWithContainerListOneWay();
     std::cout << "\nDOUBLE-LINKED CONTAINER:\n";
     workWithContainerList();
+
+// check iterator
+    std::cout << "\nCHECK ITERATOR OF SEQUENTUAL CONTAINER\n";
+    ContainerSeq<int> cont;
+    cont.push_back(1);
+    cont.push_back(2);
+
+    for(auto it = cont.begin(); it != cont.end(); it++)
+        std::cout << *it << " ";
+
     return 0;
 }
+
+
+
 
 void workWithContainerSeq() {
     ContainerSeq<int> contSeq;

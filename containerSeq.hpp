@@ -82,6 +82,66 @@ class ContainerSeq
         }
         _size--;
         }
+    // move constructor
+        ContainerSeq(ContainerSeq&& other) noexcept {
+            if(this != &other)
+            {
+                _data = nullptr;
+                _data = other._data;
+                _size = other._size;
+                _capacity = other._capacity;
+                other._size = 0;
+                other._capacity = 0;
+            }
+        }
+    //mode assignment operator
+        ContainerSeq& operator=(ContainerSeq&& other) noexcept {
+            if(this != &other)
+            {
+                _data = nullptr;
+                _data = other._data;
+                _size = other._size;
+                _capacity = other._capacity;
+                other._size = 0;
+                other._capacity = 0;               
+            }
+            return *this;
+        }
+
+    struct Iterator
+    {
+        public:
+            Iterator(T* ptr): _ptr(ptr) {};
+            
+            T& operator*() const {return *_ptr;}
+
+            T* operator->() {return _ptr;}
+
+            Iterator& operator++() {
+                _ptr++;
+                return *this;
+            }
+
+            Iterator operator++(int) {
+                Iterator tmp = *this;
+                ++(*this);
+                return tmp;
+            }
+
+            Iterator& operator--() {
+                _ptr--;
+                return *this;
+            }
+
+            bool operator==(const Iterator& other) const {return _ptr == other._ptr;}
+            bool operator!=(const Iterator& other) const {return _ptr != other._ptr;}
+            
+        private:
+            T* _ptr;
+    };
+
+        Iterator begin() {return Iterator(_data);}
+        Iterator end() {return Iterator(_data + _size);}
 
     private:
         T* _data;

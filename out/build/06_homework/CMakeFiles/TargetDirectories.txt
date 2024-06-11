@@ -1,3 +1,0 @@
-C:/dev/06_homework/out/build/06_homework/CMakeFiles/application.dir
-C:/dev/06_homework/out/build/06_homework/CMakeFiles/ALL_BUILD.dir
-C:/dev/06_homework/out/build/06_homework/CMakeFiles/ZERO_CHECK.dir

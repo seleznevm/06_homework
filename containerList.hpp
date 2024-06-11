@@ -128,6 +128,44 @@ class ContainerList
             size++;
         }
 
+        ContainerList(ContainerList&& other) noexcept {
+            clear();
+            head = other.head;
+            tail = othe.tail;
+            size = othe.size;
+            other.head = nullptr;
+            other.tail = nullptr;
+            other.size = 0;
+        }
+
+        ContainerList& operator=(ContainerList&& other) noexcept {
+            if(this != &other)
+            {
+                clear();
+                head = other.head;
+                tail = othe.tail;
+                size = othe.size;
+                other.head = nullptr;
+                other.tail = nullptr;
+                other.size = 0;
+            }
+            return *this;
+        }
+
+        void clear()
+        {
+            Node<T>* current = head;
+            while (current != nullptr)
+            {
+                Node<T>* next_node = current->next;
+                delete current;
+                current = next_node;
+            }
+            head = nullptr;
+            tail = nullptr;
+            size = 0;
+        }
+
     private:
         Node<T>* head;
         Node<T>* tail;
